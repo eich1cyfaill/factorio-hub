@@ -1,7 +1,10 @@
 import * as React from 'react';
 import axios from "axios";
 import '../../style/recipes.sass'
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import RecipesHeader from "./RecipesHeader/RecipesHeader";
+import searchItems, {titlePrettify} from '../../libs/filterItems';
+import {initialRecipeItem} from "../../types/recipesTypes";
 
 
 const Recipes: React.FC = () => {
@@ -12,9 +15,13 @@ const Recipes: React.FC = () => {
     const [currentRecipeTitle, setCurrentRecipeTitle] = useState<string | undefined>()
     const [currentRecipeDetail, setCurrentRecipeDetail] = useState<any>([])
     const [currentItemRecipe, setCurrentItemRecipe] = useState<any>([])
+    const [filteredItems, setFilteredItems] = useState<any>([])
+    const [fetchedDetailedCraft, setFetchedDetailedCraft] = useState<any>()
+
+    debugger
 
 
-    let firstFetching = async () => {
+    let firstFetching = async() => {
         setFetching(true)
         const response = await axios.get('https://factorio.vasyapupkin8.repl.co/recipes')
         let array = Object.entries(response.data)
@@ -22,16 +29,6 @@ const Recipes: React.FC = () => {
         setFetching(false)
     }
 
-    let titlePrettify = (title: string | undefined): string => {
-        if (title && title.length > 0) {
-            let newWord = title.replace(/-/gi, ' ')
-            let result = newWord.charAt(0).toUpperCase() + newWord.slice(1)
-            return result
-        }
-        return ''
-    }
-
-    // Getting image link from [recipes]
     let findImageLink = (itemName: string): string => {
         let result: string = ''
         recipes.forEach((item: any) => {
@@ -47,13 +44,15 @@ const Recipes: React.FC = () => {
         setCurrentRecipe(newRecipe)
     }
 
-    let fetchDetailedRecipe = () => {
 
-    }
 
     useEffect(() => {
         firstFetching()
-    }, [])
+    }, []) // Getting array of recipes from server at component render
+
+    useEffect(() => {
+        filterItems('')
+    }, [recipes]) // Executing filterItems with empty string to throw whole recipe array to left sidebar after firstFetching
 
     useEffect(() => {
         setCurrentRecipeTitle(currentRecipe[0])
@@ -68,6 +67,10 @@ const Recipes: React.FC = () => {
     }
 
 
+    let filterItems = (string: string): any => {
+        const filteredItems = searchItems(recipes, string)
+        setFilteredItems(filteredItems)
+    }
 
     if(fetching) return (
         <>
@@ -79,8 +82,10 @@ const Recipes: React.FC = () => {
     if(recipes.length > 1 || !fetching) return (
         <>
         <div className="recipes">
+
             <section className="recipes__side recipes__left">
-                {recipes.map((el: any) => <div className="recipes__side_item" onClick={() => settingRecipe(el)}>
+                <input type="text" placeholder="Search for item..." onChange={((e: any) => filterItems(e.target.value))}/>
+                {filteredItems.map((el: any) => <div className="recipes__side_item" onClick={() => settingRecipe(el)}>
                     <img src={el[1].image} alt=""/>
                     <p>{titlePrettify(el[0])}</p>
                 </div>)}
@@ -89,27 +94,7 @@ const Recipes: React.FC = () => {
 
 
             <section className="recipes__side recipes__right">
-                {!currentRecipeDetail?.quantity || currentRecipeDetail?.elementary ? null : <div className="recipes__right_header">
-                    <p>Custom Settings</p>
-                    <div className="recipes__right_speed">
-                        <input type="text"/> <p>speed</p>
-                    </div>
-                    <div>
-                        <select name="" id="">
-                            <option value="assembling_machine_1">Assembling machine 1</option>
-                            <option value="assembling_machine_2">Assembling machine 2</option>
-                            <option value="assembling_machine_3">Assembling machine 3</option>
-                        </select>
-                    </div>
-                    <div className="recipes__right_productivity">
-                        <label htmlFor="Productivity">Productivity</label>
-                        <input type="checkbox" name="Productivity"/>
-                    </div>
-                    <div className="recipes__right_button">
-                        <button onClick={() => fetchDetailedRecipe()}>Request</button>
-                    </div>
-                </div>
-                }
+                {!currentRecipeDetail?.quantity || currentRecipeDetail?.elementary ? null : <RecipesHeader title={currentRecipeTitle} setFetchedDetailedCraft={setFetchedDetailedCraft}/> }
 
                 <div className="recipes__right_item">
                     <div className="recipes__right_title">{currentRecipeTitle ? <img src={currentRecipeDetail?.image} alt=""/> : null}{titlePrettify(currentRecipeTitle)}</div>

@@ -1,9 +1,10 @@
 .recipes
   display: grid
   grid-template-columns: 1fr 3fr
+  height: 100vh
   &__side
     &_item
-      margin: 10px 20px
+      margin: 10px 20px 5px 20px
       padding: 10px 10px
       border-right: 4px solid #EADBC2
       color: #EADBC2
@@ -22,43 +23,6 @@
     display: flex
     justify-content: center
     color: #EADBC2
-    &_header
-      margin-bottom: 20px
-      width: 100%
-      background: #282237
-      height: 30px
-      display: grid
-      grid-template-columns: 15fr 10fr 20fr 30fr 20fr
-      padding-left: 15px
-      place-items: center
-    &_button
-      display: flex
-      justify-self: end
-      padding-right: 15px
-    &_speed
-      display: flex
-      margin-left: 15px
-      margin-right: 35px
-      height: 80%
-      align-items: center
-      input
-        width: 40px
-        margin: 0 5px
-        background: #343149
-        outline: none
-        border: none
-        border-radius: 3px
-        height: 100%
-        color: white
-    &_productivity
-      display: flex
-      justify-self: end
-      padding-right: 15px
-      align-self: center
-      align-items: center
-      input
-        margin-left: 10px
-
     &_infobox
       display: flex
       justify-content: center
@@ -97,17 +61,31 @@
         margin-bottom: 15px
         &:hover
           background: linear-gradient(125deg, rgba(255,255,255, 0.05), rgba(255,255,255,0.2), rgba(255,255,255, 0.05))
+          cursor: pointer
     &_detail
       display: flex
       justify-content: center
       align-items: center
       flex-direction: column
       width: available
-      cursor: pointer
 
   &__left
     background: #282237
     padding: 20px 0
+    display: flex
+    flex-direction: column
+    input
+      color: #EADBC2
+      background: #343149
+      border: none
+      border-radius: 3px
+      align-self: center
+      width: 90%
+      outline: none
+      padding-left: 10px
+      font-size: 22px
+      height: 40px
+      margin: 10px 0
 
 
 .loading

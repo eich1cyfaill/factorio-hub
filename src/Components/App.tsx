@@ -1,6 +1,4 @@
 import * as React from 'react';
-import axios from "axios";
-import {useEffect} from "react";
 import Header from './Header/Header';
 import { Routes, Route } from 'react-router-dom';
 import RouterTest from "./RouterTest/RouterTest";
@@ -19,4 +17,4 @@ const App: React.FC = () => {
     )
 }
 
-export default App;
+export default App

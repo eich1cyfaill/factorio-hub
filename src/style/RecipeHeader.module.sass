@@ -1,0 +1,64 @@
+.recipesHeader
+  margin-bottom: 20px
+  width: 100%
+  background: #282237
+  height: 30px
+  display: grid
+  grid-template-columns: 30fr 10fr 20fr 10fr 20fr
+  place-items: center
+  &__select
+    height: 100%
+    select
+      background: #343149
+      border: 2px solid #855200
+      border-top: none
+      height: 100%
+      outline: none
+      font-size: 17px
+      padding: 0 10px
+      color: #EADBC2
+  &__speed
+    display: flex
+    margin-left: 15px
+    margin-right: 35px
+    height: 80%
+    align-items: center
+    input
+      width: 40px
+      margin: 0 5px
+      background: #343149
+      outline: none
+      border: none
+      border-radius: 3px
+      height: 100%
+      color: white
+      padding-left: 3px
+  &__button
+    display: flex
+    justify-self: end
+    justify-content: end
+    height: 100%
+    button
+      background: #855200
+      color: #EADBC2
+      border: none
+      padding: 5px 35px 5px 35px
+      font-size: 15px
+      transition-duration: .3s
+      text-transform: uppercase
+      &:hover
+        cursor: pointer
+        color: orange
+        transition-duration: .3s
+  &__productivity
+    display: flex
+    justify-self: end
+    padding-right: 15px
+    align-self: center
+    align-items: center
+    input
+      margin-left: 10px
+
+@media screen and (max-width: 768px)
+  .recipesHeader
+    display: none
